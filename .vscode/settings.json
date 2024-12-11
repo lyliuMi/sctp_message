@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "s1ap_msg_hdr.h": "c",
+        "socket.h": "c",
+        "context.h": "c",
+        "message.h": "c",
+        "s1ap_additionalcsfallbackindicator.h": "c",
+        "s1ap_wlanname.h": "c"
+    }
+}
