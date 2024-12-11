@@ -81,7 +81,7 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
     memset(&pdu, 0, sizeof(S1AP_S1AP_PDU_t));
     pdu.present = S1AP_S1AP_PDU_PR_initiatingMessage;
     pdu.choice.initiatingMessage = 
-        (struct S1AP_InitiatingMessage*)malloc(sizeof(S1AP_InitiatingMessage_t));
+        (struct S1AP_InitiatingMessage*)CALLOC(1, sizeof(S1AP_InitiatingMessage_t));
 
     initiatingMessage = pdu.choice.initiatingMessage;
     initiatingMessage->procedureCode = S1AP_ProcedureCode_id_S1Setup;
@@ -93,7 +93,13 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
 
     // if (args->enb_name)
     // {
-        ie = (struct S1AP_S1SetupRequestIEs*)malloc(sizeof(S1AP_S1SetupRequestIEs_t));
+        ie = (struct S1AP_S1SetupRequestIEs*)CALLOC(1, sizeof(S1AP_S1SetupRequestIEs_t));
+        if(!ie)
+        {
+            perror("memory is not enough");
+            return NULL;
+        }
+
         ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
 
         ie->id = S1AP_ProtocolIE_ID_id_eNBname;
@@ -111,7 +117,13 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
     }
     // if (args->global_enb_id.enb_id) 
     // {
-        ie = (struct S1AP_S1SetupRequestIEs*)malloc(sizeof(S1AP_S1SetupRequestIEs_t));
+        ie = (struct S1AP_S1SetupRequestIEs*)CALLOC(1, sizeof(S1AP_S1SetupRequestIEs_t));
+        if(!ie)
+        {
+            perror("memory is not enough");
+            return NULL;
+        }
+
         ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
 
         ie->id = S1AP_ProtocolIE_ID_id_Global_ENB_ID;
@@ -128,7 +140,12 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
     // }
 
     
-    ie = (struct S1AP_S1SetupRequestIEs*)malloc(sizeof(S1AP_S1SetupRequestIEs_t));
+    ie = (struct S1AP_S1SetupRequestIEs*)CALLOC(1, sizeof(S1AP_S1SetupRequestIEs_t));
+    if(!ie)
+    {
+        perror("memory is not enough");
+        return NULL;
+    }
     ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
 
     ie->id = S1AP_ProtocolIE_ID_id_SupportedTAs;
@@ -137,12 +154,17 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
     SupportedTAs_t = &ie->value.choice.SupportedTAs;
     for(i = 0; i < args->num_supported_tas; i++)
     {   
-        SupportedTAs_Item_t =(S1AP_SupportedTAs_Item_t*)malloc(sizeof(struct S1AP_SupportedTAs_Item));
+        SupportedTAs_Item_t =(S1AP_SupportedTAs_Item_t*)CALLOC(1, sizeof(struct S1AP_SupportedTAs_Item));
+        if(!SupportedTAs_Item_t)
+        {
+            perror("memory is not enough");
+            return NULL;
+        }
         asn_uint16_to_OCTET_STRING(args->supported_tas[i].tac, &SupportedTAs_Item_t->tAC);
         for(j = 0; j < args->supported_tas[i].nums_plmn_id; j++)
         {
             BPLMNs_t = &SupportedTAs_Item_t->broadcastPLMNs;
-            plmn = (S1AP_PLMNidentity_t*)malloc(sizeof(S1AP_PLMNidentity_t));
+            plmn = (S1AP_PLMNidentity_t*)CALLOC(1, sizeof(S1AP_PLMNidentity_t));
             asn_buffer_to_OCTET_STRING(&((args->supported_tas[i]).plmn_id[j]), sizeof(plmn_id_t), plmn);
             
             ASN_SEQUENCE_ADD(&BPLMNs_t->list, plmn);
@@ -273,7 +295,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
     memset(&pdu, 0, sizeof(S1AP_S1AP_PDU_t));
     pdu.present = S1AP_S1AP_PDU_PR_initiatingMessage;
     pdu.choice.initiatingMessage = 
-        (struct S1AP_InitiatingMessage*)malloc(sizeof(S1AP_InitiatingMessage_t));
+        (struct S1AP_InitiatingMessage*)CALLOC(1, sizeof(S1AP_InitiatingMessage_t));
     
     initiatingMessage = pdu.choice.initiatingMessage;
     initiatingMessage->procedureCode = S1AP_ProcedureCode_id_initialUEMessage;
@@ -282,7 +304,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
         S1AP_InitiatingMessage__value_PR_InitialUEMessage;
     InitialUEMessage_t = &initiatingMessage->value.choice.InitialUEMessage;
     // 1.
-    ie = (S1AP_InitialUEMessage_IEs_t*)malloc(sizeof(S1AP_InitialUEMessage_IEs_t));
+    ie = (S1AP_InitialUEMessage_IEs_t*)CALLOC(1, sizeof(S1AP_InitialUEMessage_IEs_t));
     ASN_SEQUENCE_ADD(&InitialUEMessage_t->protocolIEs, ie);
     
     ie->id = S1AP_ProtocolIE_ID_id_eNB_UE_S1AP_ID;
@@ -293,7 +315,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
     // 2.
     if(buf)
     {
-        ie = (S1AP_InitialUEMessage_IEs_t*)malloc(sizeof(S1AP_InitialUEMessage_IEs_t));
+        ie = (S1AP_InitialUEMessage_IEs_t*)CALLOC(1, sizeof(S1AP_InitialUEMessage_IEs_t));
         ASN_SEQUENCE_ADD(&InitialUEMessage_t->protocolIEs, ie);
         ie->id = S1AP_ProtocolIE_ID_id_NAS_PDU;
         ie->criticality = S1AP_Criticality_reject;
@@ -305,7 +327,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
         pkbuf_free(buf);
     }
     // 3.
-    ie = (S1AP_InitialUEMessage_IEs_t*)malloc(sizeof(S1AP_InitialUEMessage_IEs_t));
+    ie = (S1AP_InitialUEMessage_IEs_t*)CALLOC(1, sizeof(S1AP_InitialUEMessage_IEs_t));
     ASN_SEQUENCE_ADD(&InitialUEMessage_t->protocolIEs, ie);
     ie->id = S1AP_ProtocolIE_ID_id_TAI;
     ie->criticality = S1AP_Criticality_reject;
@@ -314,7 +336,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
     asn_buffer_to_OCTET_STRING(&args->tai.plmn_id, sizeof(plmn_id_t), &TAI_t->pLMNidentity);
     asn_uint16_to_OCTET_STRING(args->tai.tac, &TAI_t->tAC);
     // 4.
-    ie = (S1AP_InitialUEMessage_IEs_t*)malloc(sizeof(S1AP_InitialUEMessage_IEs_t));
+    ie = (S1AP_InitialUEMessage_IEs_t*)CALLOC(1, sizeof(S1AP_InitialUEMessage_IEs_t));
     ASN_SEQUENCE_ADD(&InitialUEMessage_t->protocolIEs, ie);
     ie->id = S1AP_ProtocolIE_ID_id_EUTRAN_CGI;
     ie->criticality = S1AP_Criticality_ignore;
@@ -324,7 +346,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
     uint32_to_BIT_STRING_CELL_ID(args->eutran_cgi.cell_id, &EUTRAN_CGI_t->cell_ID);
     // asn_buffer_to_BIT_STRING(&args->eutran_cgi.cell_id, sizeof(uint32_t), 0, &EUTRAN_CGI_t->cell_ID);
     // 5.
-    ie = (S1AP_InitialUEMessage_IEs_t*)malloc(sizeof(S1AP_InitialUEMessage_IEs_t));
+    ie = (S1AP_InitialUEMessage_IEs_t*)CALLOC(1, sizeof(S1AP_InitialUEMessage_IEs_t));
     ASN_SEQUENCE_ADD(&InitialUEMessage_t->protocolIEs, ie);
     ie->id = S1AP_ProtocolIE_ID_id_RRC_Establishment_Cause;
     ie->criticality = S1AP_Criticality_ignore;

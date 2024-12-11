@@ -1,9 +1,8 @@
 #include "s1ap_path.h"
 #include "context.h"
-#include <netinet/in.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "s1ap_build.h"
+#include "nas_build.h"
+
 
 void s1ap_ENB_ID_to_uint32(S1AP_ENB_ID_t *eNB_ID, uint32_t *uint32)
 {
@@ -118,4 +117,66 @@ void s1ap_handle_s1_setup_request(s1ap_message_t *message)
     }
 
 
+}
+
+
+int send_s1ap_s1_setup_req(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    pkbuf_t* pkbuf = NULL;
+    s1_setup_req_arg args;
+    init_s1_setup_req_args(&args);
+
+    pkbuf = s1ap_build_s1_setup_request(&args);
+
+    size = Sctp_senddata(sctp, pkbuf, addr);
+    if(size < 0)
+    {
+        perror("send s1_setup_req error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;
+}
+
+int send_s1ap_initialueMsg(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    initial_uemessage_arg ue_args;
+    init_initial_uemessage_arg(&ue_args);
+
+    pkbuf_t* pkbuf = nas_build_attach_request();
+    pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
+    
+    
+    size = Sctp_senddata(sctp, pkbuf2, addr);
+    if(size < 0)
+    {
+        perror("send s1_setup_req error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;
+}
+
+int send_s1ap_s1_setup_res(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    s1_setup_res_arg res_args;
+    init_s1_setup_res_args(&res_args);
+
+    pkbuf_t* pkbuf = s1ap_build_s1_setup_response(&res_args);
+
+    
+    size = Sctp_senddata(sctp, pkbuf, addr);
+    if(size < 0)
+    {
+        perror("send s1_setup_req error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;
 }

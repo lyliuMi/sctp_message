@@ -1,6 +1,8 @@
 project('sctp_test', 'c')
 
-prefix = '/work/lyl/sctp_message/install/'
+project_path = meson.source_root()
+
+prefix = project_path + '/install/'
 bindir = prefix + 'bin'
 libdir = prefix + 'lib'
 
@@ -16,7 +18,7 @@ subdir('nas')
 subdir('src')
 
 executable(
-    'sctp_test_server', 
+    'sctp_test_client', 
     sources : 'main1.c',
     include_directories: [_sctp_inc],
     dependencies : [libsctp_message_dep],
@@ -24,3 +26,9 @@ executable(
     install_dir : bindir
 )
 
+message(
+    'project_path = ' + project_path + '\n',
+    'prefix = ' + prefix + '\n',
+    'bindir = ' + bindir + '\n',
+    'libdir = ' + libdir + '\n'
+)

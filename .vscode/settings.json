@@ -5,6 +5,10 @@
         "context.h": "c",
         "message.h": "c",
         "s1ap_additionalcsfallbackindicator.h": "c",
-        "s1ap_wlanname.h": "c"
+        "s1ap_wlanname.h": "c",
+        "s1ap_path.h": "c",
+        "string.h": "c",
+        "sctp.h": "c",
+        "nas_build.h": "c"
     }
 }
