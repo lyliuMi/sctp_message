@@ -128,7 +128,8 @@ int send_s1ap_s1_setup_req(sock_t* sctp, sockaddr_t* addr)
     init_s1_setup_req_args(&args);
 
     pkbuf = s1ap_build_s1_setup_request(&args);
-
+    if(!pkbuf)
+        return -1;
     size = Sctp_senddata(sctp, pkbuf, addr);
     if(size < 0)
     {
@@ -147,8 +148,11 @@ int send_s1ap_initialueMsg(sock_t* sctp, sockaddr_t* addr)
     init_initial_uemessage_arg(&ue_args);
 
     pkbuf_t* pkbuf = nas_build_attach_request();
+    if(!pkbuf)
+        return -1;
     pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
-    
+    if(!pkbuf2)
+        return -1;
     
     size = Sctp_senddata(sctp, pkbuf2, addr);
     if(size < 0)
@@ -168,7 +172,8 @@ int send_s1ap_s1_setup_res(sock_t* sctp, sockaddr_t* addr)
     init_s1_setup_res_args(&res_args);
 
     pkbuf_t* pkbuf = s1ap_build_s1_setup_response(&res_args);
-
+    if(!pkbuf)
+        return -1;
     
     size = Sctp_senddata(sctp, pkbuf, addr);
     if(size < 0)

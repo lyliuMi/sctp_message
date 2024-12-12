@@ -28,8 +28,8 @@ typedef struct s1_setup_req_arg
     {
         int nums_plmn_id;
         uint16_t tac;
-        plmn_id_t plmn_id[32];
-    }supported_tas[8];
+        plmn_id_t plmn_id[6];
+    }supported_tas[256];
 
 }s1_setup_req_arg;
 

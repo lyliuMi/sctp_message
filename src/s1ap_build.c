@@ -75,7 +75,7 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
     S1AP_SupportedTAs_Item_t* SupportedTAs_Item_t = NULL;
     S1AP_BPLMNs_t* BPLMNs_t = NULL;
     S1AP_PLMNidentity_t* plmn = NULL;
-                
+    S1AP_PagingDRX_t* PagingDRX_t = NULL;             
     // ogs_debug("Error Indication");
 
     memset(&pdu, 0, sizeof(S1AP_S1AP_PDU_t));
@@ -103,7 +103,7 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
         ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
 
         ie->id = S1AP_ProtocolIE_ID_id_eNBname;
-        ie->criticality = S1AP_Criticality_reject;
+        ie->criticality = S1AP_Criticality_ignore;
         ie->value.present = S1AP_S1SetupRequestIEs__value_PR_ENBname;
 
         ENBname_t = &ie->value.choice.ENBname;
@@ -171,6 +171,21 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
         }
         ASN_SEQUENCE_ADD(&SupportedTAs_t->list, SupportedTAs_Item_t);
     }
+
+    ie = (struct S1AP_S1SetupRequestIEs*)CALLOC(1, sizeof(S1AP_S1SetupRequestIEs_t));
+    if(!ie)
+    {
+        perror("memory is not enough");
+        return NULL;
+    }
+    ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
+    ie->id = S1AP_ProtocolIE_ID_id_pagingDRX;
+    ie->criticality = S1AP_Criticality_ignore;
+    ie->value.present = S1AP_S1SetupRequestIEs__value_PR_PagingDRX;
+    PagingDRX_t = &ie->value.choice.PagingDRX;
+
+    *PagingDRX_t = S1AP_PagingDRX_v128;
+
     return s1ap_encode(&pdu);
 }
 
@@ -299,7 +314,7 @@ pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf)
     
     initiatingMessage = pdu.choice.initiatingMessage;
     initiatingMessage->procedureCode = S1AP_ProcedureCode_id_initialUEMessage;
-    initiatingMessage->criticality = S1AP_Criticality_reject;
+    initiatingMessage->criticality = S1AP_Criticality_ignore;
     initiatingMessage->value.present =
         S1AP_InitiatingMessage__value_PR_InitialUEMessage;
     InitialUEMessage_t = &initiatingMessage->value.choice.InitialUEMessage;

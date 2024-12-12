@@ -36,11 +36,11 @@ pkbuf_t* nas_build_attach_request()
     eps_mobile_identity->guti.nas_plmn_id.mcc2 = 6;
     eps_mobile_identity->guti.nas_plmn_id.mcc3 = 0;
     eps_mobile_identity->guti.nas_plmn_id.mnc1 = 0;
-    eps_mobile_identity->guti.nas_plmn_id.mnc2 = 0;
-    eps_mobile_identity->guti.nas_plmn_id.mnc3 = 5;
-    eps_mobile_identity->guti.mme_gid = 0x0243;
+    eps_mobile_identity->guti.nas_plmn_id.mnc2 = 5;
+    eps_mobile_identity->guti.nas_plmn_id.mnc3 = 15;
+    eps_mobile_identity->guti.mme_gid = 0x4320;
     eps_mobile_identity->guti.mme_code = 1;
-    eps_mobile_identity->guti.m_tmsi = 0x1d74bac0;
+    eps_mobile_identity->guti.m_tmsi = 0xc0ba741d;
     // 3.
     ue_network_capability->length = 4;
     ue_network_capability->eea0 = 1;

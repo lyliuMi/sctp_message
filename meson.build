@@ -1,12 +1,12 @@
 project('sctp_test', 'c')
 
+cc = meson.get_compiler('c')
 project_path = meson.source_root()
 
 prefix = project_path + '/install/'
 bindir = prefix + 'bin'
 libdir = prefix + 'lib'
 
-cc = meson.get_compiler('c')
 
 _sctp_inc = include_directories('.')
 

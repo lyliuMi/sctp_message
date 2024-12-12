@@ -7,7 +7,18 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
+#include <signal.h>
 
+int running = 1;
+
+void sig_handle(int sig)
+{
+    if(sig == SIGINT)
+    {
+        printf("signal execute;\n");
+        running = 0;
+    }
+}
 
 static sockaddr_t* get_sockaddr_t(const char* addr, uint16_t port)
 {
@@ -40,10 +51,7 @@ static void test2_main()
     // int flags = fcntl(sctp->fd, F_GETFL, 0);  // 获取当前标志
     // fcntl(sctp->fd, F_SETFL, flags & ~O_NONBLOCK);  // 清除 O_NONBLOCK 标志
 
-
-    // send_s1ap_initialueMsg(sctp, addr);
-
-    while(1)
+    while(running)
     {
         size = send_s1ap_s1_setup_req(sctp, addr);
         if(size < 0)
@@ -67,12 +75,13 @@ static void test2_main()
 
         sleep(1);
     }
-
     Sock_destroy(sctp);
+    free(addr);
 }
 
 int main(void)
 {
+    signal(SIGINT, sig_handle);
     pkbuf_config_t config;
     pkbuf_init();
     pkbuf_default_init(&config);
@@ -108,19 +117,19 @@ static void test1_func()
     int sflags = 0;
     pkbuf_t* pkbuf = pkbuf_alloc(NULL, OGS_MAX_SDU_LEN);
     printf("server is listening \n");
-    while(1)
+    while(running)
     {
         size = Sctp_recvmsg(sctp, buf, sizeof(buf), &from, &info, &sflags);
         if(size < 0)
         {
             perror("recv error:");
-            continue;
+            break;
         }
         else
         {
             printf("port = %d, src = %s\n, size = %d \n", ntohs(from.sin.sin_port), inet_ntoa(from.sin.sin_addr), size);        
-            if(size == 0)
-                continue;
+            printf("ppid = %d, stream_no = %d, inbound_streams = %d, outbound_streams = %d, sflags = %d\n",
+                    info.ppid, info.stream_no, info.outbound_streams, info.inbound_streams, sflags);        
             
             for(i = 0; i < size; i++)
             {
@@ -140,11 +149,13 @@ static void test1_func()
             s1ap_handle_s1_setup_request(&s1ap);
         }
     }
+    pkbuf_free(pkbuf);
 
 }
 
 int main(void)
 {
+    signal(SIGINT, sig_handle);
     pkbuf_config_t config;
     pkbuf_init();
     pkbuf_default_init(&config);
