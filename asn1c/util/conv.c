@@ -127,73 +127,69 @@ void asn_BIT_STRING_to_uint32(BIT_STRING_t *bit_string, uint32_t *uint32)
                     >> bit_string->bits_unused;
 }
 
-// int asn_BIT_STRING_to_ip(BIT_STRING_t *bit_string, ogs_ip_t *ip)
-// {
-//     char buf[OGS_ADDRSTRLEN], buf2[OGS_ADDRSTRLEN];
+int asn_BIT_STRING_to_ip(BIT_STRING_t* bit_string, ogs_ip_t* ip)
+{
+    char buf[46], buf2[46];
 
-//     assert(bit_string);
-//     assert(ip);
+    assert(bit_string);
+    assert(ip);
 
-//     memset(ip, 0, sizeof(*ip));
+    memset(ip, 0, sizeof(*ip));
 
-//     if (bit_string->size == OGS_IPV4V6_LEN) {
-//         ip->ipv4 = 1;
-//         ip->ipv6 = 1;
-//         memcpy(&ip->addr, bit_string->buf, OGS_IPV4_LEN);
-//         memcpy(&ip->addr6, bit_string->buf+OGS_IPV4_LEN, OGS_IPV6_LEN);
-//         // ogs_debug("    IPv4[%s] IPv6[%s]",
-//         //     OGS_INET_NTOP(&ip->addr, buf),
-//         //     OGS_INET6_NTOP(&ip->addr6, buf2));
-//     } else if (bit_string->size == OGS_IPV4_LEN) {
-//         ip->ipv4 = 1;
-//         memcpy(&ip->addr, bit_string->buf, OGS_IPV4_LEN);
-//         // ogs_debug("    IPv4[%s]", OGS_INET_NTOP(&ip->addr, buf));
-//     } else if (bit_string->size == OGS_IPV6_LEN) {
-//         ip->ipv6 = 1;
-//         memcpy(&ip->addr6, bit_string->buf, OGS_IPV6_LEN);
-//         // ogs_debug("    IPv6[%s]", OGS_INET_NTOP(&ip->addr6, buf));
-//     } else {
-//         // ogs_error("ogs_asn_BIT_STRING_to_ip(size=%d) failed", bit_string->size);
-//         return -1;
-//     }
+    if (bit_string->size == OGS_IPV4V6_LEN) {
+        ip->ipv4 = 1;
+        ip->ipv6 = 1;
+        memcpy(&ip->addr, bit_string->buf, OGS_IPV4_LEN);
+        memcpy(&ip->addr6, bit_string->buf+OGS_IPV4_LEN, OGS_IPV6_LEN);
 
-//     ip->len = bit_string->size;
+    } else if (bit_string->size == OGS_IPV4_LEN) {
+        ip->ipv4 = 1;
+        memcpy(&ip->addr, bit_string->buf, OGS_IPV4_LEN);
 
-//     return 0;
-// }
+    } else if (bit_string->size == OGS_IPV6_LEN) {
+        ip->ipv6 = 1;
+        memcpy(&ip->addr6, bit_string->buf, OGS_IPV6_LEN);
 
-// int asn_ip_to_BIT_STRING(ogs_ip_t *ip, BIT_STRING_t *bit_string)
-// {
-//     char buf[OGS_ADDRSTRLEN], buf2[OGS_ADDRSTRLEN];
+    } else {
 
-//     ogs_assert(ip);
-//     ogs_assert(bit_string);
+        return -1;
+    }
 
-//     if (ip->ipv4 && ip->ipv6) {
-//         bit_string->size = OGS_IPV4V6_LEN;
-//         bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
-//         memcpy(bit_string->buf, &ip->addr, OGS_IPV4_LEN);
-//         memcpy(bit_string->buf+OGS_IPV4_LEN, &ip->addr6, OGS_IPV6_LEN);
-//         ogs_debug("    IPv4[%s] IPv6[%s]",
-//             OGS_INET_NTOP(&ip->addr, buf),
-//             OGS_INET6_NTOP(&ip->addr6, buf2));
-//     } else if (ip->ipv4) {
-//         bit_string->size = OGS_IPV4_LEN;
-//         bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
-//         memcpy(bit_string->buf, &ip->addr, OGS_IPV4_LEN);
-//         ogs_debug("    IPv4[%s]", OGS_INET_NTOP(&ip->addr, buf));
-//     } else if (ip->ipv6) {
-//         bit_string->size = OGS_IPV6_LEN;
-//         bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
-//         memcpy(bit_string->buf, &ip->addr6, OGS_IPV6_LEN);
-//         ogs_debug("    IPv6[%s]", OGS_INET_NTOP(&ip->addr6, buf));
-//     } else {
-//         ogs_error("No IPv4 or IPv6");
-//         return OGS_ERROR;
-//     }
+    ip->len = bit_string->size;
 
-//     return OGS_OK;
-// }
+    return 0;
+}
+
+int asn_ip_to_BIT_STRING(ogs_ip_t *ip, BIT_STRING_t *bit_string)
+{
+    char buf[46], buf2[46];
+
+    assert(ip);
+    assert(bit_string);
+
+    if (ip->ipv4 && ip->ipv6) {
+        bit_string->size = OGS_IPV4V6_LEN;
+        bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
+        memcpy(bit_string->buf, &ip->addr, OGS_IPV4_LEN);
+        memcpy(bit_string->buf+OGS_IPV4_LEN, &ip->addr6, OGS_IPV6_LEN);
+
+    } else if (ip->ipv4) {
+        bit_string->size = OGS_IPV4_LEN;
+        bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
+        memcpy(bit_string->buf, &ip->addr, OGS_IPV4_LEN);
+
+    } else if (ip->ipv6) {
+        bit_string->size = OGS_IPV6_LEN;
+        bit_string->buf = CALLOC(bit_string->size, sizeof(uint8_t));
+        memcpy(bit_string->buf, &ip->addr6, OGS_IPV6_LEN);
+
+    } else {
+
+        return -1;
+    }
+
+    return 0;
+}
 
 int asn_copy_ie(const asn_TYPE_descriptor_t *td, void *src, void *dst)
 {

@@ -21,6 +21,14 @@ pkbuf_t* s1ap_build_s1_setup_response(s1_setup_res_arg* args);
 pkbuf_t* s1ap_build_initial_uemessage(initial_uemessage_arg* args, pkbuf_t* buf);
 
 
+pkbuf_t* s1ap_build_initialContextSetupReq();
+
+pkbuf_t* s1ap_build_initialContextSetupRes();
+
+pkbuf_t* s1ap_build_uecontext_release_request();
+
+pkbuf_t* s1ap_build_uplink_nas_transport(pkbuf_t* detach_buf);
+
 #ifdef __cplusplus
 }
 #endif

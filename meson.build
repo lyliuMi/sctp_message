@@ -11,9 +11,9 @@ libdir = prefix + 'lib'
 _sctp_inc = include_directories('.')
 
 subdir('core')
-subdir('asn1c')
 subdir('proto')
 subdir('crypt')
+subdir('asn1c')
 subdir('nas')
 subdir('src')
 

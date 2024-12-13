@@ -12,6 +12,7 @@
         "nas_build.h": "c",
         "signal.h": "c",
         "typeinfo": "cpp",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "type_traits": "c"
     }
 }

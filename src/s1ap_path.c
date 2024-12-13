@@ -157,7 +157,7 @@ int send_s1ap_initialueMsg(sock_t* sctp, sockaddr_t* addr)
     size = Sctp_senddata(sctp, pkbuf2, addr);
     if(size < 0)
     {
-        perror("send s1_setup_req error:");
+        perror("send s1ap_initialueMsg error:");
         return -1;
     }
     printf("send success: size = %ld\n", size);
@@ -178,10 +178,98 @@ int send_s1ap_s1_setup_res(sock_t* sctp, sockaddr_t* addr)
     size = Sctp_senddata(sctp, pkbuf, addr);
     if(size < 0)
     {
-        perror("send s1_setup_req error:");
+        perror("send s1_setup_res error:");
         return -1;
     }
     printf("send success: size = %ld\n", size);
 
     return 0;
+}
+
+
+int send_s1ap_initialContextSetupReq(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    // s1_setup_res_arg res_args;
+    // init_s1_setup_res_args(&res_args);
+
+    pkbuf_t* pkbuf = s1ap_build_initialContextSetupReq();
+    if(!pkbuf)
+        return -1;
+    
+    size = Sctp_senddata(sctp, pkbuf, addr);
+    if(size < 0)
+    {
+        perror("send s1ap_initialContextSetupReq error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;
+}
+
+int send_s1ap_initialContextSetupRes(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    // s1_setup_res_arg res_args;
+    // init_s1_setup_res_args(&res_args);
+
+    pkbuf_t* pkbuf = s1ap_build_initialContextSetupRes();
+    if(!pkbuf)
+        return -1;
+    
+    size = Sctp_senddata(sctp, pkbuf, addr);
+    if(size < 0)
+    {
+        perror("send s1ap_build_initialContextSetupRes error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;
+}
+
+int send_s1ap_uecontext_release_request(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    // s1_setup_res_arg res_args;
+    // init_s1_setup_res_args(&res_args);
+
+    pkbuf_t* pkbuf = s1ap_build_uecontext_release_request();
+    if(!pkbuf)
+        return -1;
+    
+    size = Sctp_senddata(sctp, pkbuf, addr);
+    if(size < 0)
+    {
+        perror("send s1ap_build_uecontext_release_request error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;   
+}
+
+
+int send_s1ap_uplink_nas_transport(sock_t* sctp, sockaddr_t* addr)
+{
+    ssize_t size;
+    // s1_setup_res_arg res_args;
+    // init_s1_setup_res_args(&res_args);
+
+    pkbuf_t* pkbuf = nas_build_detach_request();
+    pkbuf_t* pkbuf2 = s1ap_build_uplink_nas_transport(pkbuf);
+    if(!pkbuf)
+        return -1;
+    if(!pkbuf2)
+        return -1;
+    size = Sctp_senddata(sctp, pkbuf2, addr);
+    if(size < 0)
+    {
+        perror("send send_s1ap_uplink_nas_transport error:");
+        return -1;
+    }
+    printf("send success: size = %ld\n", size);
+
+    return 0;   
 }

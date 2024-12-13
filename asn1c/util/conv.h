@@ -1,12 +1,13 @@
 #ifndef ASN_CONV_H
 #define ASN_CONV_H
 
-#include "../asn1c/common/asn_internal.h"
-#include "../asn1c/common/OCTET_STRING.h"
-#include "../asn1c/common/BIT_STRING.h"
+#include "asn_internal.h"
+#include "OCTET_STRING.h"
+#include "BIT_STRING.h"
 #include "assert.h"
 #include <stdlib.h>
-#include "../core/core.h"
+#include "core.h"
+#include "ogs-proto.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,10 +65,10 @@ void asn_uint32_to_BIT_STRING(
         uint32_t uint32, uint8_t bitsize, BIT_STRING_t* bit_string);
 void asn_BIT_STRING_to_uint32(BIT_STRING_t* bit_string, uint32_t* uint32);
 
-// int asn_BIT_STRING_to_ip(
-//         BIT_STRING_t *bit_string, ogs_ip_t *ip);
-// int asn_ip_to_BIT_STRING(
-//         ogs_ip_t *ip, BIT_STRING_t *bit_string);
+int asn_BIT_STRING_to_ip(
+        BIT_STRING_t *bit_string, ogs_ip_t *ip);
+int asn_ip_to_BIT_STRING(
+        ogs_ip_t *ip, BIT_STRING_t *bit_string);
 
 int asn_copy_ie(
         const asn_TYPE_descriptor_t* td, void* src, void* dst);

@@ -3652,7 +3652,8 @@ ogs_nas_emm_encode(ogs_nas_eps_message_t *message)
         encoded += size;
         break;
     case OGS_NAS_EPS_DETACH_REQUEST:
-        size = ogs_nas_eps_encode_detach_request_to_ue(pkbuf, message);
+        // size = ogs_nas_eps_encode_detach_request_to_ue(pkbuf, message);
+        size = ogs_nas_eps_encode_detach_request_from_ue(pkbuf, message);
         assert(size >= 0);
         encoded += size;
         break;

@@ -96,6 +96,75 @@ pkbuf_t* nas_build_attach_request()
     return pkbuf;
 }
 
+pkbuf_t* nas_build_detach_request()
+{
+    ogs_nas_eps_message_t message;
+    pkbuf_t *pkbuf = NULL;
+
+    ogs_nas_eps_detach_request_from_ue_t* detach_request = &message.emm.detach_request_from_ue;
+    memset(&message, 0, sizeof(message));
+    message.h.security_header_type =
+       OGS_NAS_SECURITY_HEADER_INTEGRITY_PROTECTED;
+    message.h.protocol_discriminator = OGS_NAS_PROTOCOL_DISCRIMINATOR_EMM;
+
+    message.emm.h.protocol_discriminator = OGS_NAS_PROTOCOL_DISCRIMINATOR_EMM;
+    message.emm.h.message_type = OGS_NAS_EPS_DETACH_REQUEST;
+
+    ogs_nas_detach_type_t* nas_detach_type_t = &detach_request->detach_type;
+    ogs_nas_eps_mobile_identity_t* nas_eps_mobile_identity_t = &detach_request->eps_mobile_identity;
+
+    // 1. 
+    nas_detach_type_t->tsc = 0;
+    nas_detach_type_t->nas_key_set_identifier = 7;
+    nas_detach_type_t->switch_off = 1;
+    nas_detach_type_t->value = 1;
+
+    // // 2.
+    // nas_eps_mobile_identity_t->length = 11;
+    // nas_eps_mobile_identity_t->guti.spare = 0;
+    // nas_eps_mobile_identity_t->guti.odd_even = 0;
+    // nas_eps_mobile_identity_t->guti.type = 6;
+
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mcc1 = 4;
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mcc2 = 6;
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mcc3 = 0;
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mnc1 = 0;
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mnc2 = 5;
+    // nas_eps_mobile_identity_t->guti.nas_plmn_id.mnc3 = 15;
+    // nas_eps_mobile_identity_t->guti.mme_gid = 0x4320;
+    // nas_eps_mobile_identity_t->guti.mme_code = 1;
+    // nas_eps_mobile_identity_t->guti.m_tmsi = 0xc0ba741d;
+
+    // 2.
+    nas_eps_mobile_identity_t->length = 8;
+    nas_eps_mobile_identity_t->imsi.digit1 = 4;
+    nas_eps_mobile_identity_t->imsi.odd_even = 1;
+    nas_eps_mobile_identity_t->imsi.type = 1;
+
+    nas_eps_mobile_identity_t->imsi.digit2 = 6;
+    nas_eps_mobile_identity_t->imsi.digit3 = 0;
+    nas_eps_mobile_identity_t->imsi.digit4 = 0;
+    nas_eps_mobile_identity_t->imsi.digit5 = 5;
+    nas_eps_mobile_identity_t->imsi.digit6 = 0;
+    nas_eps_mobile_identity_t->imsi.digit7 = 7;
+    nas_eps_mobile_identity_t->imsi.digit8 = 6;
+    nas_eps_mobile_identity_t->imsi.digit9 = 3;
+    nas_eps_mobile_identity_t->imsi.digit10 = 0;
+    nas_eps_mobile_identity_t->imsi.digit11 = 0;
+    nas_eps_mobile_identity_t->imsi.digit12 = 1;
+    nas_eps_mobile_identity_t->imsi.digit13 = 7;
+    nas_eps_mobile_identity_t->imsi.digit14 = 8;
+    nas_eps_mobile_identity_t->imsi.digit15 = 9;
+
+    if((pkbuf = ogs_nas_eps_plain_encode(&message)) < 0)
+    {
+        perror("nas msg enconde fail:");
+        return NULL;
+    }
+
+    return pkbuf;
+}
+
 pkbuf_t *nas_build_identity_request()
 {
     ogs_nas_eps_message_t message;

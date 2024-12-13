@@ -56,24 +56,54 @@ static void test2_main()
         size = send_s1ap_s1_setup_req(sctp, addr);
         if(size < 0)
         {
-            perror("send s1_setup_res error:");
+            perror("send s1ap_s1_setup_req error:");
         }
         sleep(1);
 
         size = send_s1ap_initialueMsg(sctp, addr);
         if(size < 0)
         {
-            perror("send s1_setup_req error:");
+            perror("send s1ap_initialueMsg error:");
         }
         sleep(1);
 
         size = send_s1ap_s1_setup_res(sctp, addr);
         if(size < 0)
         {
-            perror("send initial_ue_msg error:");
+            perror("send s1ap_s1_setup_res error:");
         }
 
         sleep(1);
+        size = send_s1ap_initialContextSetupReq(sctp, addr);
+        if(size < 0)
+        {
+            perror("send s1ap_initialContextSetupReq error:");
+        }
+
+        sleep(1);
+
+        size = send_s1ap_initialContextSetupRes(sctp, addr);
+        if(size < 0)
+        {
+            perror("send send_s1ap_initialContextSetupRes error:");
+        }
+
+        sleep(1);
+        size = send_s1ap_uecontext_release_request(sctp, addr);
+        if(size < 0)
+        {
+            perror("send send_s1ap_uecontext_release_request error:");
+        }
+
+        sleep(1);
+        size = send_s1ap_uplink_nas_transport(sctp, addr);
+        if(size < 0)
+        {
+            perror("send send_s1ap_uplink_nas_transport error:");
+        }
+
+        sleep(1);
+
     }
     Sock_destroy(sctp);
     free(addr);

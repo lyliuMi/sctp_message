@@ -27,7 +27,7 @@ libasn1c_util = library('asn1c-util',
     version : '1.0.0',
     # c_args : libasn1c_common_cc_flags,
     include_directories : libasn1c_util_inc,
-    dependencies : [libasn1c_common_dep, libcore_dep],
+    dependencies : [libasn1c_common_dep, libproto_dep],
     install : true,
     install_dir : libdir
 )
@@ -35,5 +35,5 @@ libasn1c_util = library('asn1c-util',
 libasn1c_util_dep = declare_dependency(
     link_with : libasn1c_util,
     include_directories : libasn1c_util_inc,
-    dependencies : [libcore_dep, libasn1c_common_dep]
+    dependencies : [libasn1c_common_dep, libproto_dep]
 )
