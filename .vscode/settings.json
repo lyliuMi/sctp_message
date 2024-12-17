@@ -13,6 +13,11 @@
         "signal.h": "c",
         "typeinfo": "cpp",
         "cstdlib": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "nas_security.h": "c",
+        "ogs-nas-eps.h": "c",
+        "core.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c"
     }
 }

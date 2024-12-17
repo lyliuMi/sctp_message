@@ -1,8 +1,6 @@
 #include "nas_build.h"
 #include "nas_security.h"
 
-extern int ogs_nas_eps_encode_attach_request(pkbuf_t *pkbuf, ogs_nas_eps_message_t *message);
-
 pkbuf_t* nas_build_attach_request()
 {
     ogs_nas_eps_message_t message;

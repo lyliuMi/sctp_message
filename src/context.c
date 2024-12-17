@@ -42,22 +42,22 @@ int init_s1_setup_res_args(s1_setup_res_arg* args)
     int i, j;
     memcpy(args->mme_name, "mme0", 5);
 
-    args->num_of_served_gummei = 8;
+    args->num_of_served_gummei = 4;
     for(i = 0; i < args->num_of_served_gummei; i++)
     {
-        (args->served_gummei[i]).num_of_group_id = 256;
+        (args->served_gummei[i]).num_of_group_id = 10;
         for(j = 0; j < (args->served_gummei[i]).num_of_group_id; j++)
         {
             (args->served_gummei[i]).mme_gid[j] = 0x1234;
         }
 
-        (args->served_gummei[i]).num_of_mme_code = 256;
+        (args->served_gummei[i]).num_of_mme_code = 10;
         for(j = 0; j < (args->served_gummei[i]).num_of_mme_code; j++)
         {
             (args->served_gummei[i]).mme_code[j] = 0x10;
         }
 
-        (args->served_gummei[i]).num_of_plmn_id = 32;
+        (args->served_gummei[i]).num_of_plmn_id = 4;
         for(j = 0; j < (args->served_gummei[i]).num_of_plmn_id; j++)
         {
             ((args->served_gummei[i]).plmn_id[j]).mcc1 = 4;

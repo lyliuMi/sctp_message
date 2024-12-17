@@ -8,7 +8,6 @@
 #include <assert.h>
 
 
-
 #define OGS_PROTO_INSIDE
 
 #include "types.h"

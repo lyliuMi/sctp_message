@@ -1,6 +1,5 @@
 #include "sctp.h"
-// #include <linux/sctp.h>
-// #include <netinet/sctp.h>
+
 static void sockopt_init(sockopt_t *option);
 static int sctp_setsockopt_event_subscribe_workaround(
         int fd, const struct sctp_event_subscribe *event_subscribe);

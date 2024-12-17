@@ -24,6 +24,45 @@ void s1ap_ENB_ID_to_uint32(S1AP_ENB_ID_t *eNB_ID, uint32_t *uint32)
     }
 }
 
+void s1ap_handle_bytype(s1ap_message_t *message)
+{
+    int i, j;
+    if(message->present == S1AP_S1AP_PDU_PR_NOTHING)
+    {
+        printf("s1ap message S1AP_S1AP_PDU_PR_NOTHING\n");
+    }
+    else if(message->present == S1AP_S1AP_PDU_PR_initiatingMessage)
+    {
+        printf("s1ap message S1AP_S1AP_PDU_PR_initiatingMessage\n");
+        S1AP_InitiatingMessage_t *initiatingMessage = message->choice.initiatingMessage;
+        printf("initiatingMessage->procedureCode = %ld\n", (S1AP_ProcedureCode_t)initiatingMessage->procedureCode);
+        switch(initiatingMessage->procedureCode)
+        {   
+            case S1AP_ProcedureCode_id_S1Setup:
+                s1ap_handle_s1_setup_request(message);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+    else if(message->present == S1AP_S1AP_PDU_PR_successfulOutcome)
+    {
+        printf("s1ap message S1AP_S1AP_PDU_PR_successfulOutcome\n");
+        S1AP_SuccessfulOutcome_t *successfulOutcome = message->choice.successfulOutcome;
+
+        printf("initiatingMessage->procedureCode = %ld\n", successfulOutcome->procedureCode);
+    }
+    else if(message->present == S1AP_S1AP_PDU_PR_unsuccessfulOutcome)
+    {
+        printf("s1ap message S1AP_S1AP_PDU_PR_unsuccessfulOutcome\n");
+
+    }
+
+
+}
+
 void s1ap_handle_s1_setup_request(s1ap_message_t *message)
 {
     int i, j;
@@ -150,11 +189,11 @@ int send_s1ap_initialueMsg(sock_t* sctp, sockaddr_t* addr)
     pkbuf_t* pkbuf = nas_build_attach_request();
     if(!pkbuf)
         return -1;
-    pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
-    if(!pkbuf2)
-        return -1;
+    // pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
+    // if(!pkbuf2)
+    //     return -1;
     
-    size = Sctp_senddata(sctp, pkbuf2, addr);
+    size = Sctp_senddata(sctp, pkbuf, addr);
     if(size < 0)
     {
         perror("send s1ap_initialueMsg error:");

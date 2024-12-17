@@ -157,7 +157,7 @@ static void test1_func()
         }
         else
         {
-            printf("port = %d, src = %s\n, size = %d \n", ntohs(from.sin.sin_port), inet_ntoa(from.sin.sin_addr), size);        
+            printf("port = %d, src = %s, size = %d \n", ntohs(from.sin.sin_port), inet_ntoa(from.sin.sin_addr), size);        
             printf("ppid = %d, stream_no = %d, inbound_streams = %d, outbound_streams = %d, sflags = %d\n",
                     info.ppid, info.stream_no, info.outbound_streams, info.inbound_streams, sflags);        
             
@@ -174,9 +174,11 @@ static void test1_func()
             if(s1ap_decode(&s1ap, pkbuf))
             {
                 printf("decode fail\n");
+                continue;
             }
 
-            s1ap_handle_s1_setup_request(&s1ap);
+            s1ap_handle_bytype(&s1ap);
+            printf("\n");
         }
     }
     pkbuf_free(pkbuf);

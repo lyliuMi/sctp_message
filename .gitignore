@@ -2,14 +2,14 @@ build/
 
 install/
 
-.so
+*.so
 
-.lib
+*.lib
 
-.a
+*.a
 
-.pcap
+*.pcap
 
-.gitignore
+*.gitignore
 
 .vscode/

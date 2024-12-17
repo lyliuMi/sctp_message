@@ -189,7 +189,7 @@ pkbuf_t* s1ap_build_s1_setup_request(s1_setup_req_arg* args)
         return NULL;
     }
     ASN_SEQUENCE_ADD(&S1SetupRequest->protocolIEs, ie);
-    ie->id = S1AP_ProtocolIE_ID_id_pagingDRX;
+    ie->id = S1AP_ProtocolIE_ID_id_DefaultPagingDRX;
     ie->criticality = S1AP_Criticality_ignore;
     ie->value.present = S1AP_S1SetupRequestIEs__value_PR_PagingDRX;
     PagingDRX_t = &ie->value.choice.PagingDRX;
