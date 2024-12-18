@@ -1,7 +1,7 @@
 #ifndef S1AP_MESSAGE_H
 #define S1AP_MESSAGE_H
 
-#include "pkbuf.h"
+#include "core.h"
 #include "s1ap_msg_hdr.h"
 
 #ifdef __cplusplus

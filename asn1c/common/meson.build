@@ -161,7 +161,6 @@ libasn1c_common = library('ogsasn1c-common',
     version : '1.0.0',
     c_args : libasn1c_common_cc_flags,
     include_directories : libasn1c_common_inc,
-    # dependencies : libcore_dep,
     install : true,
     install_dir : libdir
 )
@@ -169,5 +168,4 @@ libasn1c_common = library('ogsasn1c-common',
 libasn1c_common_dep = declare_dependency(
     link_with : libasn1c_common,
     include_directories : libasn1c_common_inc,
-    # dependencies : libcore_dep
     )

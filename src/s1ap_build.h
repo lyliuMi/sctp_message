@@ -1,7 +1,7 @@
 #ifndef _S1AP_BUILD_H
 #define _S1AP_BUILD_H
 
-#include "pkbuf.h"
+#include "core.h"
 #include "context.h"
 #include "s1ap_msg_hdr.h"
 

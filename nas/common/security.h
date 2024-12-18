@@ -1,6 +1,8 @@
 #ifndef OGS_NAS_SECURITY_H
 #define OGS_NAS_SECURITY_H
 
+#include "ogs-nas-common.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -1,7 +1,7 @@
 #ifndef OGS_PROTO_H
 #define OGS_PROTO_H
 
-#include "../core/core.h"
+#include "core.h"
 #include <netinet/in.h>
 #include <string.h>
 #include <stdlib.h>

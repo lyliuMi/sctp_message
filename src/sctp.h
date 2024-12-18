@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#include "pkbuf.h"
+#include "core.h"
 
 #define ogs_sctp_ppid_in_pkbuf(__pkBUF)         (__pkBUF)->param[0]
 #define ogs_sctp_stream_no_in_pkbuf(__pkBUF)    (__pkBUF)->param[1]

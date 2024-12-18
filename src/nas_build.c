@@ -1,6 +1,13 @@
 #include "nas_build.h"
 #include "nas_security.h"
 
+char buf[32] = 
+{   0x02, 0x01, 0xd0, 0x11, 0x27, 0x1a, 0x80, 0x80, 0x21, 0x10, 0x01,
+    0x01, 0x00, 0x10, 0x81, 0x06, 0x00, 0x00, 0x00, 0x00, 0x83, 0x06, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x0a, 0x00, 0x00, 0x0d, 0x00
+};
+
+
 pkbuf_t* nas_build_attach_request()
 {
     ogs_nas_eps_message_t message;
@@ -36,9 +43,9 @@ pkbuf_t* nas_build_attach_request()
     eps_mobile_identity->guti.nas_plmn_id.mnc1 = 0;
     eps_mobile_identity->guti.nas_plmn_id.mnc2 = 5;
     eps_mobile_identity->guti.nas_plmn_id.mnc3 = 15;
-    eps_mobile_identity->guti.mme_gid = 0x4320;
+    eps_mobile_identity->guti.mme_gid = 0x4302;
     eps_mobile_identity->guti.mme_code = 1;
-    eps_mobile_identity->guti.m_tmsi = 0xc0ba741d;
+    eps_mobile_identity->guti.m_tmsi = 0xc0af1f04;
     // 3.
     ue_network_capability->length = 4;
     ue_network_capability->eea0 = 1;
@@ -78,11 +85,10 @@ pkbuf_t* nas_build_attach_request()
     ue_network_capability->uia7 = 0;
 
     // 4.
-    esm_message_container->length = 100;
-    char* buffer = (char*)malloc(100);
-    strcpy(buffer, "pdn");
+    esm_message_container->length = 32;
+    // char* buffer = (char*)malloc(32);
     // char buffer[100] = "pdn";
-    esm_message_container->buffer = buffer;
+    esm_message_container->buffer = buf;
 
     //
     if((pkbuf = nas_eps_security_encode(&message)) < 0)

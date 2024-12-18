@@ -189,11 +189,11 @@ int send_s1ap_initialueMsg(sock_t* sctp, sockaddr_t* addr)
     pkbuf_t* pkbuf = nas_build_attach_request();
     if(!pkbuf)
         return -1;
-    // pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
-    // if(!pkbuf2)
-    //     return -1;
+    pkbuf_t* pkbuf2 = s1ap_build_initial_uemessage(&ue_args, pkbuf);
+    if(!pkbuf2)
+        return -1;
     
-    size = Sctp_senddata(sctp, pkbuf, addr);
+    size = Sctp_senddata(sctp, pkbuf2, addr);
     if(size < 0)
     {
         perror("send s1ap_initialueMsg error:");

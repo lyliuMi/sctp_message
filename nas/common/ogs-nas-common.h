@@ -1,8 +1,8 @@
 #ifndef OGS_NAS_COMMON_H
 #define OGS_NAS_COMMON_H
 
-#include "../crypt/ogs-crypt.h"
-#include "../core/core.h"
+#include "ogs-crypt.h"
+#include "core.h"
 #include <assert.h>
 #define OGS_NAS_INSIDE
 

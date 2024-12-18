@@ -18,6 +18,7 @@
         "ogs-nas-eps.h": "c",
         "core.h": "c",
         "unistd.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "constr_type.h": "c"
     }
 }

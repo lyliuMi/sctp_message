@@ -1,23 +1,22 @@
-libcoreources = files('''
+libsctp_message_core_src = files('''
     list.c
     pkbuf.c
     log.c
     conv.c
 '''.split())
 
-libcore_inc = include_directories('.')
+libsctp_message_core_inc = include_directories('.')
 
-libcore = library('core',
-    sources : libcoreources,
+libsctp_message_core = library('sctp_message_core',
+    sources : libsctp_message_core_src,
     version : '1.0.0',
     # c_args : libasn1c_common_cc_flags,
-    include_directories : libcore_inc,
-    # dependencies : [libasn1c_common_dep, libsctp_message_dep],
+    include_directories : libsctp_message_core_inc,
     install : true,
     install_dir : libdir    
 )
 
-libcore_dep = declare_dependency(
-    link_with : libcore,
-    include_directories : [libcore_inc]
+libsctp_message_core_dep = declare_dependency(
+    link_with : libsctp_message_core,
+    include_directories : [libsctp_message_core_inc]
 )

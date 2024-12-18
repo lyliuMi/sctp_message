@@ -36,7 +36,7 @@ libproto = library('ogsproto',
     version : '1.0.0',
     c_args : '-DOGS_PROTO_COMPILATION',
     include_directories : [libproto_inc],
-    dependencies : libcore_dep,
+    dependencies : libsctp_message_core_dep,
     install : true,
     install_dir : libdir
 )
@@ -44,4 +44,4 @@ libproto = library('ogsproto',
 libproto_dep = declare_dependency(
     link_with : libproto,
     include_directories : [libproto_inc],
-    dependencies : libcore_dep)
+    dependencies : libsctp_message_core_dep)

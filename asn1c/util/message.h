@@ -1,9 +1,9 @@
 #ifndef OGS_ASN_MESSAGE_H
 #define OGS_ASN_MESSAGE_H
 
-#include "../asn1c/common/asn_internal.h"
-#include "../asn1c/common/constr_TYPE.h"
-#include "../../core/pkbuf.h"
+#include "asn_internal.h"
+#include "constr_TYPE.h"
+#include "core.h"
 
 
 #ifdef __cplusplus
