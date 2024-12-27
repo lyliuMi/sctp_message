@@ -2,9 +2,7 @@ FROM ubuntu:latest
 
 WORKDIR /C++/C/sctp_msg
 
-COPY install/bin/sctp_test_client /C++/C/sctp_msg/install/bin/sctp_test_client
-
-COPY install/bin/sctp_test_server /C++/C/sctp_msg/install/bin/sctp_test_server
+COPY install /C++/C/sctp_msg/install
 
 RUN chmod +x /C++/C/sctp_msg/install/bin
 

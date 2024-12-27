@@ -2,6 +2,7 @@
 #define _CONTEXT_H
 #include <stdint.h>
 #include "s1ap_msg_hdr.h"
+#include "m_yaml.h"
 
 typedef struct plmn_id_s
 {
@@ -13,10 +14,43 @@ typedef struct plmn_id_s
     uint8_t mnc3:4;
 }plmn_id_t;
 
+typedef struct enb_context_s
+{
+    uint32_t mme_ue_s1ap_id;
+    uint32_t enb_ue_s1ap_id;
+    char *enb_name;
+    struct
+    {
+        plmn_id_t plmn_id;
+        uint32_t enb_id;
+    }global_enb_id;
+
+    int num_supported_tas;
+    struct
+    {
+        int nums_plmn_id;
+        uint16_t tac;
+        plmn_id_t plmn_id[6];
+    }supported_tas[256];
+    
+    struct
+    {
+        plmn_id_t plmn_id;
+        uint16_t tac;
+    }tai;
+    struct
+    {
+        plmn_id_t plmn_id;
+        uint32_t cell_id;
+    }eutran_cgi;
+    
+}enb_context_t;
+
+
+
 typedef struct s1_setup_req_arg
 {
     char enb_name[20];
-
     struct
     {
         plmn_id_t plmn_id;
@@ -57,7 +91,6 @@ typedef struct initial_uemessage_arg
         plmn_id_t plmn_id;
         uint16_t tac;
     }tai;
-        
     struct
     {
         plmn_id_t plmn_id;
@@ -67,6 +100,13 @@ typedef struct initial_uemessage_arg
     long id_rrc_establismnet_cause;
 }initial_uemessage_arg;
 
+void enb_context_init(const char* name);
+
+enb_context_t *enb_self(void);
+
+int s1ap_plmn_id_build(plmn_id_t *plmn_id, uint16_t mcc, uint16_t mnc, uint16_t mnc_len);
+
+int s1ap_context_parse_config(const char* name);
 
 int init_s1_setup_req_args(s1_setup_req_arg* args);
 

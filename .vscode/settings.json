@@ -19,6 +19,7 @@
         "core.h": "c",
         "unistd.h": "c",
         "stdio.h": "c",
-        "constr_type.h": "c"
+        "constr_type.h": "c",
+        "stdint.h": "c"
     }
 }

@@ -1,0 +1,56 @@
+enb:
+  enb_name: _enb0
+  enb_ue_s1ap_id: 132145
+
+  global_enb_id:
+    plmn_id:
+      mcc: 460
+      mnc: 05
+    enb_id: 1321321
+  
+  supported_tas:
+    - plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      tac: 33
+    - plmn_id:
+        mcc: 460
+        mnc: 05
+      plmn_id:
+        mcc: 460
+        mnc: 05
+      tac: 32  
+
+  eutran_cgi:
+    plmn_id:
+      mcc: 999
+      mnc: 70
+    cell_id: 21312331
+  
+  # gummei:
+  #   - plmn_id:
+  #       mcc: 999
+  #       mnc: 70
+  #     mme_gid: 2
+  #     mme_code: 1
+  
+  tai: 
+    plmn_id:
+      mcc: 460
+      mnc: 35
+    tac: 100

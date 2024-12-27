@@ -39,6 +39,10 @@ static sockaddr_t* get_sockaddr_t(const char* addr, uint16_t port)
 static void test2_main()
 {
     int rv;
+    //
+    enb_context_init("conf/enb.yaml");
+    s1ap_context_parse_config("conf/enb.yaml");
+    //
     sock_t* sctp;
     ssize_t size;
     uint32_t ppid;
@@ -100,6 +104,14 @@ static void test2_main()
         if(size < 0)
         {
             perror("send send_s1ap_uplink_nas_transport error:");
+        }
+
+        sleep(1);
+
+        size = send_s1ap_decode_fail_pkts(sctp, addr);
+        if(size < 0)
+        {
+            perror("send send_s1ap_decode_fail_pkts error:");
         }
 
         sleep(1);

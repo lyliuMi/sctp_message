@@ -6,7 +6,7 @@ project_path = meson.source_root()
 prefix = project_path + '/install/'
 bindir = prefix + 'bin'
 libdir = prefix + 'lib'
-
+confdir = prefix + 'conf'
 
 _sctp_inc = include_directories('.')
 
@@ -15,6 +15,7 @@ subdir('proto')
 subdir('crypt')
 subdir('asn1c')
 subdir('nas')
+subdir('config')
 subdir('src')
 
 executable(
@@ -30,5 +31,6 @@ message(
     'project_path = ' + project_path + '\n',
     'prefix = ' + prefix + '\n',
     'bindir = ' + bindir + '\n',
-    'libdir = ' + libdir + '\n'
+    'libdir = ' + libdir + '\n',
+    'confdir = ' + confdir + '\n',
 )

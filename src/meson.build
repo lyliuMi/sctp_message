@@ -9,16 +9,18 @@ sctp_message_src = files(
     'socket.c',
     's1ap_path.c',
     'nas_build.c',
-    'nas_security.c'
+    'nas_security.c',
+    'm_yaml.c'
 )
 
 libsctp = cc.find_library('sctp', required:true)
+libyaml_dep = cc.find_library('yaml', required:true)
 
 libsctp_message = library('sctp_message',
     sources : sctp_message_src,
     version : '1.0.0',
     include_directories : [sctp_message_inc],
-    dependencies : [libsctp, libasn1c_s1ap_dep, libasn1c_ngap_dep, libasn1c_util_dep, libnas_eps_dep],
+    dependencies : [libsctp, libasn1c_s1ap_dep, libasn1c_ngap_dep, libasn1c_util_dep, libnas_eps_dep, libyaml_dep],
     install : true,
     install_dir : libdir
 )
@@ -30,5 +32,5 @@ libsctp_message = library('sctp_message',
 libsctp_message_dep = declare_dependency(
     link_with : libsctp_message,
     include_directories : [sctp_message_inc],
-    dependencies : [libsctp, libasn1c_s1ap_dep, libasn1c_ngap_dep, libasn1c_util_dep, libnas_eps_dep]
+    dependencies : [libsctp, libasn1c_s1ap_dep, libasn1c_ngap_dep, libasn1c_util_dep, libnas_eps_dep, libyaml_dep]
 )

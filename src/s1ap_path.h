@@ -25,4 +25,6 @@ int send_s1ap_initialContextSetupRes(sock_t* sctp, sockaddr_t* addr);
 int send_s1ap_uecontext_release_request(sock_t* sctp, sockaddr_t* addr);
 
 int send_s1ap_uplink_nas_transport(sock_t* sctp, sockaddr_t* addr);
+
+int send_s1ap_decode_fail_pkts(sock_t* sctp, sockaddr_t* addr);
 #endif
